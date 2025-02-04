@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Clothing Store - Trendy Fashion">
-    <title>Clothing Store</title>
+    <meta name="description" content="Fashion Store">
+    <title>Fashion Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* Resetting some default styles */
+        /* Global Styles */
         * {
             margin: 0;
             padding: 0;
@@ -27,6 +27,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
 
         header .logo {
@@ -35,214 +36,169 @@
             letter-spacing: 1px;
         }
 
-        header .nav-links {
+        .nav-links {
             list-style: none;
             display: flex;
-            gap: 20px;
         }
 
-        header .nav-links li {
-            font-size: 16px;
+        .nav-links li {
+            margin: 0 20px;
         }
 
-        header .nav-links a {
+        .nav-links li a {
             color: white;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
         }
 
-        header .nav-links a:hover {
-            text-decoration: underline;
-        }
-
-        header .search-bar input {
-            padding: 8px;
+        .search-bar input {
+            padding: 10px;
             border: none;
             border-radius: 5px;
+            margin-left: 20px;
         }
 
-        header .cart-icon {
-            font-size: 24px;
-            color: white;
+        .cart-icon {
+            font-size: 30px;
             cursor: pointer;
+            color: white;
         }
 
-        /* Main Content */
-        .main-container {
+        .cart-icon:hover {
+            color: #f60;
+        }
+
+        /* Product Grid */
+        .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
             padding: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
-        .product {
+        .product-card {
             background-color: white;
+            padding: 20px;
             border-radius: 8px;
-            overflow: hidden;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 350px; /* Set a fixed height for the product card */
-            cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        .product img {
+        .product-card img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: opacity 0.3s ease;
+            height: auto;
+            border-radius: 8px;
+            transition: opacity 0.3s;
         }
 
-        /* Hover effect for switching images */
-        .product:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
-        }
-
-        .product .img-front {
-            opacity: 1;
-        }
-
-        .product .img-back {
-            opacity: 0;
-        }
-
-        .product:hover .img-front {
-            opacity: 0;
-        }
-
-        .product:hover .img-back {
-            opacity: 1;
-        }
-
-        .product .product-info {
-            padding: 15px;
-            text-align: center;
-        }
-
-        .product h3 {
+        .product-card h3 {
+            margin: 15px 0;
             font-size: 18px;
-            color: #333;
-            margin-bottom: 10px;
+            font-weight: 600;
         }
 
-        .product p {
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 10px;
+        .product-card p {
+            font-size: 16px;
+            color: #555;
         }
 
-        .product .price {
+        .product-card .price {
+            font-size: 18px;
+            font-weight: bold;
             color: #f60;
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #333;
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-
-        footer a {
-            color: #f60;
-            text-decoration: none;
-        }
-
-        footer .social-links {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
             margin-top: 10px;
         }
 
-        footer .social-links a {
-            font-size: 20px;
-            color: white;
-        }
-
-        footer .social-links a:hover {
-            color: #f60;
-        }
-
-        /* Notification Styling */
-        #notification {
-            display: none;
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background-color: #28a745;
+        .product-card .view-item-btn {
+            display: block;
+            background-color: #f60;
             color: white;
             padding: 10px;
+            text-align: center;
+            text-decoration: none;
             border-radius: 5px;
-            z-index: 1000;
+            margin-top: 10px;
+            font-weight: 600;
         }
 
-        /* Modal Styling */
+        .product-card .view-item-btn:hover {
+            background-color: #e55a00;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        /* Modal */
         .modal {
-            display: none; /* Hidden by default */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.5);
             align-items: center;
-            z-index: 1001;
+            justify-content: center;
         }
 
         .modal-content {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
-            width: 500px;
-            max-width: 90%;
-            text-align: center;
+            max-width: 500px;
+            width: 100%;
         }
 
         .modal-content img {
             width: 100%;
             border-radius: 8px;
-            margin-bottom: 15px;
         }
 
-        .modal-content h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
+        .modal-content h3 {
+            margin: 10px 0;
         }
 
         .modal-content p {
             font-size: 16px;
-            color: #333;
+            margin: 10px 0;
         }
 
-        .modal-content .price {
-            color: #f60;
-            font-size: 22px;
-            margin-bottom: 20px;
+        .modal-content select,
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
         }
 
-        .modal-content .close-btn {
-            background-color: #333;
+        .modal-content button {
+            background-color: #f60;
             color: white;
-            padding: 10px 15px;
+            padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            text-transform: uppercase;
-            margin-top: 10px;
+            width: 100%;
         }
 
-        .modal-content .close-btn:hover {
-            background-color: #555;
+        .modal-content button:hover {
+            background-color: #e55a00;
         }
 
+        /* Notification */
+        #notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -259,60 +215,103 @@
     <div class="search-bar">
         <input type="text" placeholder="Search...">
     </div>
-    <div class="cart-icon">&#128722;</div>
+    <div class="cart-icon" onclick="window.location.href='cart.html'">&#128722;</div>
 </header>
 
-<!-- Main Content (Product Grid) -->
-<div class="main-container">
-    <!-- Product 1: Classic White Shirt -->
-    <div class="product" onclick="openModal('Shirt', 'Classic White Shirt', '$29.99', 'This classic white shirt is made of breathable cotton. Great for both casual and formal occasions.', 'https://cdn.discordapp.com/attachments/1336192912425357313/1336193317024829522/image.png?ex=67a2ea80&is=67a19900&hm=a535199d52bc972957a7f51e6e6498d9626d09256c6c5ce79b40963ff17a29ba&')">
-        <img src="https://cdn.discordapp.com/attachments/1336192912425357313/1336193317024829522/image.png?ex=67a2ea80&is=67a19900&hm=a535199d52bc972957a7f51e6e6498d9626d09256c6c5ce79b40963ff17a29ba&" alt="Classic White Shirt Front" class="img-front">
-        <img src="https://cdn.discordapp.com/attachments/1336192912425357313/1336195040317542422/image.png?ex=67a2ec1a&is=67a19a9a&hm=acdb81767e8e897f3d798458ee0dec1dd5a3168028ed97f520a4361c2a1e9e31&" alt="Classic White Shirt Back" class="img-back">
-        <div class="product-info">
-            <h3>Classic White Shirt</h3>
-            <p>Men's cotton shirt, comfortable and breathable.</p>
-            <div class="price">$29.99</div>
-        </div>
+<!-- Product Grid -->
+<div class="product-grid">
+    <div class="product-card" onmouseover="this.querySelector('.view-item-btn').style.display = 'block';" onmouseout="this.querySelector('.view-item-btn').style.display = 'none';">
+        <img src="https://cdn.discordapp.com/attachments/1336192912425357313/1336206478222037052/image.png?ex=67a2f6c1&is=67a1a541&hm=e11c85189111adc14d0c79a927f8f7e2d441aa1f9a35fbe3d9942c2ea43dc822" alt="White T-shirt">
+        <h3>Classic White Shirt</h3>
+        <p>Perfect for casual wear, soft cotton, and available in all sizes.</p>
+        <p class="price">$29.99</p>
+        <a href="#" class="view-item-btn" onclick="openModal('Classic White Shirt', '$29.99', 'Perfect for casual wear, soft cotton, and available in all sizes.', 'https://cdn.discordapp.com/attachments/1336192912425357313/1336206478222037052/image.png?ex=67a2f6c1&is=67a1a541&hm=e11c85189111adc14d0c79a927f8f7e2d441aa1f9a35fbe3d9942c2ea43dc822')">View Item</a>
     </div>
 
-    <!-- Add other products here similar to the one above -->
-
+    <div class="product-card" onmouseover="this.querySelector('.view-item-btn').style.display = 'block';" onmouseout="this.querySelector('.view-item-btn').style.display = 'none';">
+        <img src="https://cdn.discordapp.com/attachments/1336192912425357313/1336205674727608340/image.png?ex=67a2f602&is=67a1a482&hm=981babc07d3423696d998e485ea84532b0d5c633dc3a19034d7420e49fc84ff5" alt="Blue Designer Jeans">
+        <h3>Blue Designer Jeans</h3>
+        <p>Trendy design with a comfortable fit, perfect for casual or semi-formal events.</p>
+        <p class="price">$49.99</p>
+        <a href="#" class="view-item-btn" onclick="openModal('Blue Designer Jeans', '$49.99', 'Trendy design with a comfortable fit, perfect for casual or semi-formal events.', 'https://cdn.discordapp.com/attachments/1336192912425357313/1336205674727608340/image.png?ex=67a2f602&is=67a1a482&hm=981babc07d3423696d998e485ea84532b0d5c633dc3a19034d7420e49fc84ff5')">View Item</a>
+    </div>
 </div>
 
 <!-- Modal -->
 <div id="productModal" class="modal">
     <div class="modal-content">
-        <img id="modalImage" src="" alt="Product Image">
-        <h2 id="modalTitle"></h2>
+        <img id="modalImage" src="" alt="">
+        <h3 id="modalTitle"></h3>
         <p id="modalDescription"></p>
-        <div class="price" id="modalPrice"></div>
-        <button class="close-btn" onclick="closeModal()">Close</button>
+        <p id="modalPrice"></p>
+        <div>
+            <label for="size">Select Size:</label>
+            <select id="size">
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+            </select>
+        </div>
+        <div>
+            <label for="quantity">Select Quantity:</label>
+            <input type="number" id="quantity" min="1" max="10" value="1">
+        </div>
+        <button onclick="addToCart()">Add to Cart</button>
+        <button onclick="closeModal()">Close</button>
     </div>
 </div>
 
-<!-- Footer -->
-<footer>
-    <p>© 2025 FashionStore. All rights reserved.</p>
-    <ul class="social-links">
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Facebook</a></li>
-        <li><a href="#">Twitter</a></li>
-    </ul>
-</footer>
+<!-- Notification -->
+<div id="notification">Item added to cart!</div>
 
 <script>
-    // Function to open the modal
-    function openModal(product, title, price, description, imageUrl) {
+    // Open Modal
+    function openModal(title, price, description, image) {
         document.getElementById('modalTitle').innerText = title;
         document.getElementById('modalPrice').innerText = price;
         document.getElementById('modalDescription').innerText = description;
-        document.getElementById('modalImage').src = imageUrl;
+        document.getElementById('modalImage').src = image;
         document.getElementById('productModal').style.display = 'flex';
     }
 
-    // Function to close the modal
+    // Close Modal
     function closeModal() {
         document.getElementById('productModal').style.display = 'none';
+    }
+
+    // Add to Cart
+    function addToCart() {
+        let title = document.getElementById('modalTitle').innerText;
+        let size = document.getElementById('size').value;
+        let quantity = document.getElementById('quantity').value;
+        let price = document.getElementById('modalPrice').innerText;
+        
+        // Create an object for the product in cart
+        const cartItem = {
+            title,
+            size,
+            quantity,
+            price
+        };
+
+        // Get current cart from localStorage
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Add new item to cart
+        cart.push(cartItem);
+
+        // Save the updated cart back to localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        // Display Notification
+        document.getElementById('notification').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('notification').style.display = 'none';
+        }, 3000);
+
+        closeModal();
     }
 </script>
 

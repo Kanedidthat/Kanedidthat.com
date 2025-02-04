@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fashion Store">
+    <title>Cart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f7f7f7;
+        }
+
+        /* Header */
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .cart-icon {
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .cart-icon:hover {
+            color: #f60;
+        }
+
+        /* Cart Page */
+        .cart-container {
+            padding: 20px;
+        }
+
+        .cart-items {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-items h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .cart-items table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+
+        .cart-items th, .cart-items td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .cart-items th {
+            background-color: #f60;
+            color: white;
+        }
+
+        .cart-items td {
+            background-color: #f9f9f9;
+        }
+
+        .total-section {
+            text-align: right;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .checkout-btn, .exit-btn {
+            background-color: #f60;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .checkout-btn:hover, .exit-btn:hover {
+            background-color: #e55a00;
+        }
+
+        .exit-btn {
+            background-color: #d9534f;
+        }
+
+        .exit-btn:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header (without navigation links) -->
+<header>
+    <div class="logo">FashionStore</div>
+    <div class="cart-icon" onclick="window.location.href='cart.html'">&#128722;</div>
+</header>
+
+<!-- Cart Page -->
+<div class="cart-container">
+    <div class="cart-items">
+        <h3>Your Shopping Cart</h3>
+
+        <!-- Cart Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Size</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="cartItemsList">
+                <!-- Cart items will be dynamically inserted here -->
+            </tbody>
+        </table>
+
+        <!-- Total Section -->
+        <div class="total-section">
+            <p><strong>Total: $<span id="totalAmount">0.00</span></strong></p>
+            <p id="shippingMessage"></p>
+        </div>
+
+        <!-- Buttons Section -->
+        <div class="button-container">
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+            <button class="exit-btn" onclick="exitCart()">Exit Cart</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to load cart items from localStorage and display them
+    function loadCart() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let cartItemsList = document.getElementById('cartItemsList');
+        let totalAmount = 0;
+        let freeShipping = true;
+
+        // Clear current cart items
+        cartItemsList.innerHTML = '';
+
+        // Loop through the cart items and add them to the table
+        cart.forEach(item => {
+            let totalItemPrice = parseFloat(item.price.replace('$', '')) * item.quantity;
+            totalAmount += totalItemPrice;
+
+            // Add row for each item
+            let row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.title}</td>
+                <td>${item.size}</td>
+                <td>${item.quantity}</td>
+                <td>${item.price}</td>
+                <td>$${totalItemPrice.toFixed(2)}</td>
+            `;
+            cartItemsList.appendChild(row);
+        });
+
+        // Display total amount
+        document.getElementById('totalAmount').innerText = totalAmount.toFixed(2);
+
+        // Display free shipping message if applicable
+        if (totalAmount < 50) {
+            freeShipping = false;
+            document.getElementById('shippingMessage').innerText = 'Add more items worth $' + (50 - totalAmount).toFixed(2) + ' for free shipping!';
+        } else {
+            document.getElementById('shippingMessage').innerText = 'Free Shipping!';
+        }
+    }
+
+    // Function to handle checkout (for now, just alerting)
+    function checkout() {
+        alert('Proceeding to Checkout');
+    }
+
+    // Function to handle exit cart (for now, just navigating back)
+    function exitCart() {
+        window.location.href = 'index.html'; // Redirect to home or shop page
+    }
+
+    // Load cart items when the page loads
+    window.onload = loadCart;
+</script>
+
+</body>
+</html>

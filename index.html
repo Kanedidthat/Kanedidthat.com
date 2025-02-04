@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Clothing Store - Trendy Fashion">
+    <title>Clothing Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Resetting some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f7f7f7;
+        }
+
+        /* Header */
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        header .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        header .nav-links li {
+            font-size: 16px;
+        }
+
+        header .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        header .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        header .search-bar input {
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        header .cart-icon {
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 350px; /* Set a fixed height for the product card */
+            cursor: pointer;
+        }
+
+        .product img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Hover effect for switching images */
+        .product:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .product .img-front {
+            opacity: 1;
+        }
+
+        .product .img-back {
+            opacity: 0;
+        }
+
+        .product:hover .img-front {
+            opacity: 0;
+        }
+
+        .product:hover .img-back {
+            opacity: 1;
+        }
+
+        .product .product-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .product h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .product p {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .product .price {
+            color: #f60;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #f60;
+            text-decoration: none;
+        }
+
+        footer .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        footer .social-links a {
+            font-size: 20px;
+            color: white;
+        }
+
+        footer .social-links a:hover {
+            color: #f60;
+        }
+
+        /* Notification Styling */
+        #notification {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 500px;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .modal-content img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .modal-content h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .modal-content p {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .modal-content .price {
+            color: #f60;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content .close-btn {
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .modal-content .close-btn:hover {
+            background-color: #555;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <div class="logo">FashionStore</div>
+    <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Shop</a></li>
+        <li><a href="#">Sale</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+    <div class="search-bar">
+        <input type="text" placeholder="Search...">
+    </div>
+    <div class="cart-icon">&#128722;</div>
+</header>
+
+<!-- Main Content (Product Grid) -->
+<div class="main-container">
+    <!-- Product 1: Classic White Shirt -->
+    <div class="product" onclick="openModal('Shirt', 'Classic White Shirt', '$29.99', 'This classic white shirt is made of breathable cotton. Great for both casual and formal occasions.', 'https://cdn.discordapp.com/attachments/1336192912425357313/1336193317024829522/image.png?ex=67a2ea80&is=67a19900&hm=a535199d52bc972957a7f51e6e6498d9626d09256c6c5ce79b40963ff17a29ba&')">
+        <img src="https://cdn.discordapp.com/attachments/1336192912425357313/1336193317024829522/image.png?ex=67a2ea80&is=67a19900&hm=a535199d52bc972957a7f51e6e6498d9626d09256c6c5ce79b40963ff17a29ba&" alt="Classic White Shirt Front" class="img-front">
+        <img src="https://cdn.discordapp.com/attachments/1336192912425357313/1336195040317542422/image.png?ex=67a2ec1a&is=67a19a9a&hm=acdb81767e8e897f3d798458ee0dec1dd5a3168028ed97f520a4361c2a1e9e31&" alt="Classic White Shirt Back" class="img-back">
+        <div class="product-info">
+            <h3>Classic White Shirt</h3>
+            <p>Men's cotton shirt, comfortable and breathable.</p>
+            <div class="price">$29.99</div>
+        </div>
+    </div>
+
+    <!-- Add other products here similar to the one above -->
+
+</div>
+
+<!-- Modal -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <img id="modalImage" src="" alt="Product Image">
+        <h2 id="modalTitle"></h2>
+        <p id="modalDescription"></p>
+        <div class="price" id="modalPrice"></div>
+        <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>© 2025 FashionStore. All rights reserved.</p>
+    <ul class="social-links">
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Twitter</a></li>
+    </ul>
+</footer>
+
+<script>
+    // Function to open the modal
+    function openModal(product, title, price, description, imageUrl) {
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalPrice').innerText = price;
+        document.getElementById('modalDescription').innerText = description;
+        document.getElementById('modalImage').src = imageUrl;
+        document.getElementById('productModal').style.display = 'flex';
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        document.getElementById('productModal').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
